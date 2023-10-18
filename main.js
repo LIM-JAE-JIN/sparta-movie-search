@@ -7,9 +7,9 @@ window.addEventListener("scroll", function() {
 
     if (scrollPosition >= 100) {
         // 현재 내 스크롤 위치가 100 초과 시
-        hederSearch.style.height = '120px';
+        hederSearch.style.opacity = '0.9';
     } else {
         // 현재 내 스크롤 위치가 100 미만 시
-        hederSearch.style.height = '0';
+        hederSearch.style.opacity = '0';
     }
 });
