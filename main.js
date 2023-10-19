@@ -40,7 +40,7 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
         const value = searchInput.value.toLowerCase();
         searchList = result.filter(item=> {
             const m_title = item.title.toLowerCase();
-            return m_title.includes(value) ? item : '';
+            return m_title.includes(value) ? item : ''; // 삼항연산자
         });
     });
     // 검색버튼 클릭 시 filter list 노출
