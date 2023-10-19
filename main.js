@@ -10,10 +10,17 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
 .then(res => res.json())
 .then(res => {
     // 영화 데이터
-    const result = res.results;
+    const result = res.results; // 영화리스트 데이터
+    const cardListWrap = document.getElementById('m_list_wrap'); // 카드박스 ul
+    const popDimm = document.querySelector('.dimm'); // 팝업 배경
+    const popup = document.querySelector('.popup_cont_wrap'); // 팝업컨텐츠
+    const popOpen = document.querySelector('#popOpen'); // 팝업전체
+    const closeBtn = document.querySelector('.closeBtn'); // 팝업 X버튼
+    const searchInput = document.querySelector('#search'); // 검색 인풋
+    const searchBtn = document.querySelector('#search_btn'); // 검색 버튼
+    const allBtn = document.querySelector('#allList'); // list다보여주기 버튼
     
     // 영화 데이터 불러와서 카드형태로 뿌리기
-    const cardListWrap = document.getElementById('m_list_wrap');
     const cardLists = (post_img, title) => {
         let temp_html = `
         <div class="img_wrap">
@@ -23,25 +30,11 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
         `;
         return temp_html
     }
-    result.forEach(el => {
-        // console.log(el);
-        const post_image = el.poster_path;
-        const title = el.title;
-        const dataId = el.id;
-        
-        const listItem = document.createElement('li'); // li 추가
-        listItem.classList.add('m_list'); // li에 m_list 클래스 추가
-        listItem.setAttribute('data-id', dataId);
-        listItem.innerHTML = cardLists(post_image, title); // 추가한 li.m_list에 내용 넣기;
-        
-        cardListWrap.appendChild(listItem);
-    });
+    CardListFunc(result); // 전체 리스트 뿌리기
 
 
     // 영화 타이틀로 검색
-    const searchInput = document.querySelector('#search');
-    const searchBtn = document.querySelector('#search_btn');
-    let searchList= [];
+    let searchList= []; // 필터 영화담기
     // input.value에 맞는 영화타이틀 filter
     searchInput.addEventListener('input', () => {
         const value = searchInput.value.toLowerCase();
@@ -57,31 +50,23 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
             searchInput.value= '';
             searchInput.focus();
             return;
+        } else{
+            cardListWrap.innerHTML = '';
+            alert(`${searchInput.value} 를 검색한 결과입니다.`);
+            CardListFunc(searchList); // 검색된 단어 포함되는 리스트 뿌리기
         }
-        cardListWrap.innerHTML = '';
-        searchList.forEach(item => {
-            const post_image = item.poster_path;
-            const title = item.title;
-            const dataId = item.id;
-            console.log(item);
-        
-            const listItem = document.createElement('li'); // li 추가
-            listItem.classList.add('m_list'); // li에 m_list 클래스 추가
-            listItem.setAttribute('data-id', dataId);
-            listItem.innerHTML = cardLists(post_image, title); // 추가한 li.m_list에 내용 넣기;
-            
-            cardListWrap.appendChild(listItem);
-        });
     });
 
 
-
+    
+    // all list 보기
+    allBtn.addEventListener('click',function(){
+        cardListWrap.innerHTML = '';
+        CardListFunc(result); // 전체 리스트 뿌리기
+        alert('다시 뿌맀다!');
+    })
+    
     // 해당 포스터 클릭 했을 때, 팝업창 데이터에 맞춰서 뜨기
-    const cardList = document.querySelectorAll('.m_list'); // 카드리스트
-    const popDimm = document.querySelector('.dimm'); // 팝업 배경
-    const popup = document.querySelector('.popup_cont_wrap'); // 팝업 데이터 넣기
-    const popOpen = document.querySelector('#popOpen'); // 팝업 열기
-    const closeBtn = document.querySelector('.closeBtn'); // 팝업 close버튼
     const popupOpen = (title, image, summaryCont, rating) => {
         const popup_html = `
             <div class="pop_cont">
@@ -97,19 +82,6 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
         `
         return popup_html;
     }
-    cardList.forEach(list => {
-        list.addEventListener("click", function(e) {
-            const id = parseInt(this.getAttribute('data-id'));
-            // console.log(id);
-            const clickDom = (result.filter((item)=> {
-                return id === item.id;
-            }))[0];
-            // console.log(clickDom.vote_average);
-            popup.innerHTML = popupOpen(clickDom.title, clickDom.backdrop_path, clickDom.overview, clickDom.vote_average);
-            popDimm.classList.add('_on');
-            popOpen.classList.add('_on');
-        });
-    });
     // 팝업 닫기
     popDimm.addEventListener('click',()=>{
         popDimm.classList.remove('_on');
@@ -121,7 +93,39 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
         popOpen.classList.remove('_on');
     });
 
-
+    // 함수 정리
+    function CardListFunc (result) {
+        result.forEach(el => {
+            // console.log(el);
+            const post_image = el.poster_path;
+            const title = el.title;
+            const dataId = el.id;
+            
+            const listItem = document.createElement('li'); // li 추가
+            listItem.classList.add('m_list'); // li에 m_list 클래스 추가
+            listItem.setAttribute('data-id', dataId);
+            listItem.innerHTML = cardLists(post_image, title); // 추가한 li.m_list에 내용 넣기;
+            
+            cardListWrap.appendChild(listItem);
+            openPopup();
+        });        
+    }
+    function openPopup() {
+        const cardList = document.querySelectorAll('.m_list'); // 카드 li
+        cardList.forEach(list => {
+            list.addEventListener("click", function(e) {
+                const id = parseInt(this.getAttribute('data-id'));
+                console.log(id);
+                const clickDom = (result.filter((item)=> {
+                    return id === item.id;
+                }))[0];
+                console.log(clickDom.vote_average);
+                popup.innerHTML = popupOpen(clickDom.title, clickDom.backdrop_path, clickDom.overview, clickDom.vote_average);
+                popDimm.classList.add('_on');
+                popOpen.classList.add('_on');
+            });
+        });
+    }
 })
 .catch(err => console.error(err));
 
@@ -129,7 +133,7 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
 
 // 상단 search 나오게 
 window.addEventListener("scroll", function() {
-    const hederSearch = document.querySelector(".headSearch");
+const hederSearch = document.querySelector(".headSearch");
 
     // 현재 내 스크롤 위치
     let scrollPosition = window.scrollY || document.documentElement.scrollTop;

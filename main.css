@@ -193,6 +193,16 @@ header {
 /* header e */
 
 /* main s */
+#allList {
+    display: inline-block;
+    font-size:16px;
+    cursor: pointer;
+    color:#ffd616;
+    font-weight:normal;
+    margin-left:10px;
+    padding:3px;
+    text-decoration: underline;
+}
 main {
     width:1400px;
     position: relative;
