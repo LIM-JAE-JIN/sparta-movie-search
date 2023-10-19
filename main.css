@@ -171,17 +171,13 @@ header {
     position: fixed;
     background-color: #000;
     z-index:10;
-    opacity: 0;
+    opacity: 0.9;
     top:0;
-}
-.headSearch._on {
-    height:110px;
 }
 .headSearch h1 {
     color:#bbb;
     letter-spacing: -2px;
     font-size:28px;
-    margin-top:20px;
 }
 .search_wrap {
     margin:15px 0;

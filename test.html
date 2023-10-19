@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="searchInput" placeholder="영화 제목 검색">
+    <ul id="movieList">
+        <li>The Sun</li>
+        <li>The Moon</li>
+        <li>Star Wars</li>
+        <li>Sunset Boulevard</li>
+        <li>The Shining</li>
+    </ul>
+
+    <script>
+
+        const searchInput = document.getElementById("searchInput");
+        const movieList = document.getElementById("movieList");
+        const movieItems = Array.from(movieList.getElementsByTagName("li"));
+
+        searchInput.addEventListener("input", function () {
+            const searchText = searchInput.value.toLowerCase(); // 검색어를 소문자로 변환
+
+            movieItems.forEach(item => {
+                const movieTitle = item.textContent.toLowerCase();
+
+                // 검색어가 영화 제목에 포함되는 경우 해당 영화 표시, 그렇지 않으면 숨김
+                if (movieTitle.includes(searchText)) {
+                    item.style.display = "block"; // 보이기
+                } else {
+                    item.style.display = "none"; // 숨기기
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
