@@ -47,6 +47,105 @@ img {
 }
 /* base e */
 
+/* popup s*/
+.dimm {
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000;
+    opacity: 0;
+    visibility: hidden;
+    transition: .3s ease;
+    z-index:11;
+}
+.dimm._on {
+    visibility: visible;
+    opacity: .4;
+}
+#popOpen {
+    position: fixed;
+    width: 1000px;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    z-index:12;
+    transition: .3s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+}
+#popOpen._on {
+    visibility: visible;
+    opacity: 1;
+}
+.popup_cont_wrap {
+    width: 100%;
+    padding:50px 0 30px;
+    background-color:#1b192b;
+    border-radius: 10px;
+}
+.pop_img_wrap {
+    position: relative;
+    padding-top: 50%;
+    overflow: hidden;
+}
+.pop_img_wrap img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+.closeBtn {
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+.closeBtn::before {
+    content: '';
+    display: block;
+    width: 26px;
+    height: 2px;
+    background-color: #fff;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 50%;
+}
+.closeBtn::after {
+    content: '';
+    display: block;
+    width: 26px;
+    height: 2px;
+    background-color: #fff;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 50%;
+}
+.pop_cont {
+    color:#bbb;
+}
+.pop_cont > h2, .pop_cont > p {
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+.pop_cont > h2 {
+    font-size:30px;
+    margin-bottom:15px;
+}
+.pop_cont > p {
+    margin-top: 15px;
+}
+.pop_cont .rating {
+    color:#ffd616;
+}
+/* popup e*/
+
 /* header s */
 .movie_container {
     position: relative;
@@ -176,6 +275,9 @@ main h2 {
         width:100%;
         padding:0 20px;
         box-sizing: border-box;
+    }
+    #popOpen {
+        width:90%;
     }
 }
 /* 최대 680px까지 적용됨 */
