@@ -93,7 +93,7 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
         popOpen.classList.remove('_on');
     });
 
-    // 함수 정리
+    // list 뿌리는 함수
     function CardListFunc (result) {
         result.forEach(el => {
             // console.log(el);
@@ -110,6 +110,7 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
             openPopup();
         });        
     }
+    // 팝업 함수
     function openPopup() {
         const cardList = document.querySelectorAll('.m_list'); // 카드 li
         cardList.forEach(list => {
