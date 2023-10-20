@@ -50,6 +50,9 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
             searchInput.value= '';
             searchInput.focus();
             return;
+        } else if(searchInput.value === ''){
+            alert('검색하신 영화가 없습니다, 다시 검색해주세요!');
+            searchInput.focus();
         } else{
             cardListWrap.innerHTML = '';
             alert(`${searchInput.value} 를 검색한 결과입니다.`);
