@@ -45,6 +45,7 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
     });
     // 검색버튼 클릭 시 filter list 노출
     searchBtn.addEventListener('click', function() {
+        // 조건 value 빈값일 때도 추가
         if(searchList.length === 0 || searchInput.value === '') {
             alert('검색하신 영화가 없습니다, 다시 검색해주세요!');
             searchInput.value= '';
