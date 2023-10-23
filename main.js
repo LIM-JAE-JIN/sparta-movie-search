@@ -19,6 +19,7 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
     const searchInput = document.querySelector('#search'); // 검색 인풋
     const searchBtn = document.querySelector('#search_btn'); // 검색 버튼
     const allBtn = document.querySelector('#allList'); // list다보여주기 버튼
+    const totalLength = document.querySelector('#total_length') // 토탈 개수
     
     // 영화 데이터 불러와서 카드형태로 뿌리기
     const cardLists = (post_img, title) => {
@@ -31,6 +32,7 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
         return temp_html
     }
     CardListFunc(result); // 전체 리스트 뿌리기
+
 
 
     // 영화 타이틀로 검색
@@ -101,6 +103,7 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
             const post_image = el.poster_path;
             const title = el.title;
             const dataId = el.id;
+            const total = el.length;
             
             const listItem = document.createElement('li'); // li 추가
             listItem.classList.add('m_list'); // li에 m_list 클래스 추가
@@ -110,6 +113,8 @@ fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', opti
             cardListWrap.appendChild(listItem);
             openPopup();
         });        
+        totalLength.innerHTML =`(${result.length})`; // 검색할 때 마다 영화 개수 넣기
+        // totalLength.insertAdjacentText('afterbegin', `(${result.length})`) // 이거 쓰면 검색마다 추가됨
     }
     // 팝업 함수
     function openPopup() {
